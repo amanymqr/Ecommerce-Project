@@ -9,21 +9,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
-    use HasFactory , SoftDeletes;
-    protected $guarded=[];
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
 
     public function children()
     {
-        return$this->hasMany(Category::class ,'parent_id');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function parent()
     {
-        return$this->belongsTo(Category::class,'parent_id')->withDefault();
+        return $this->belongsTo(Category::class, 'parent_id')->withDefault();
     }
 
-    public function product()
+    public function products()
     {
-        return$this->hasMany(Product::class);
+        return $this->hasMany(Product::class);
     }
 }

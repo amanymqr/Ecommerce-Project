@@ -20,37 +20,40 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('adminassets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-
     @if (app()->currentLocale() == 'ar')
         <style>
             body {
                 direction: rtl;
-                text-algin: right;
+                text-align: right;
             }
-
             .sidebar {
-                padding: 0;
+                padding: 0
             }
 
             .sidebar .nav-item .nav-link {
-                text-align: right;
-
+                text-align: right
             }
 
             .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
                 float: left;
-                transform: rotate(180deg);
+                transform: rotate(180deg)
             }
 
-            .ml-auto,
-            .mx-auto {
-                margin-right: auto !important;
-                margin-left: 0 !important;
-
+            .ml-auto, .mx-auto {
+                margin-right: auto!important;
+                margin-left: 0!important;
             }
         </style>
     @endif
-    @yield('css')
+
+    <style>
+        .table td,
+        .table th {
+            vertical-align: middle
+        }
+    </style>
+
+    @yield('styles')
 
 </head>
 
@@ -74,34 +77,30 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
+                    {{-- {{ app()->currentLocale() }} --}}
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        {{-- multi langgggggggggggguggge --}}
-
-                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            {{-- {{ $localeCode }} --}}
                             @if (app()->currentLocale() != $localeCode)
-                                <li class="nav-item">
-                                    <a class="nav-link" rel="alternate" hreflang="{{ $localeCode }}"
-                                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                            <li class="nav-item ">
+                                <a class="nav-link" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    {{-- @if ($localeCode == 'ar')
+                                        <img width="20" src="{{ asset('adminassets/img/ps.png') }}" alt="">
+                                    @else
+                                        <img width="20" src="{{ asset('adminassets/img/uk.png') }}" alt="">
+                                    @endif --}}
+                                    {{-- {{ $properties['native'] }} --}}
 
-                                        {{-- if($localeCode=='ar')
-        <img src="{{ asset('adminassets/img/pal.png') }}" alt="">
-    @else
-        <img src="{{ asset('adminassets/img/uk.png') }}" alt="">
-
-@endif --}}
-                                        <img width=20px src="{{ asset('adminassets/img/' . $properties['flag']) }}"
-                                            alt="">
-
-
-                                        {{-- {{ $properties['native'] }} --}}
-                                    </a>
-
-                                </li>
+                                    <img width="20" src="{{ asset('adminassets/img/'.$properties['flag']) }}" alt="">
+                                </a>
+                            </li>
                             @endif
-                        @endforeach
 
+                            @endforeach
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -125,8 +124,7 @@
                                     </div>
                                     <div>
                                         <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to
-                                            download!</span>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -151,11 +149,9 @@
                                         Spending Alert: We've noticed unusually high spending for your account.
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                                    Alerts</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
-
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -163,42 +159,33 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span
-                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
 
-                                {{-- <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <div class="dropdown-divider"></div>
+                                {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a> --}}
 
-                                <form action="{{ route('logout') }}" method="post">
-                                    @csrf
-                                    <div class="dropdown-divider"></div>
-
-                                    <button class="dropdown-item">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        logout</button>
+                                <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="dropdown-item"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout</button>
                                 </form>
-
-
-
 
                             </div>
                         </li>
 
-                        </>
+                    </ul>
 
                 </nav>
                 <!-- End of Topbar -->
@@ -264,7 +251,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('adminassets/js/sb-admin-2.min.js') }}"></script>
-    @yield('script')
+
+    @yield('scripts')
+
 </body>
 
 </html>
